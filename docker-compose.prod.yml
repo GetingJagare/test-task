@@ -1,0 +1,30 @@
+version: '2'
+services:
+  php:
+    image: php8.1
+    build:
+      dockerfile: php/Dockerfile
+    ports:
+      - '8000:8000'  
+    volumes:
+      - ./app:/var/www/app/:ro
+  # nginx:
+  #   image: nginx:latest
+  #   ports:
+  #     - '80:80'
+  #   links:
+  #     - 'php'
+  #   volumes:
+  #     - ./app:/app/:rw
+  #     - ./nginx-conf:/etc/nginx/conf.d/:ro
+  #   depends_on:
+  #     - php
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'    
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "8025:1080"
+        

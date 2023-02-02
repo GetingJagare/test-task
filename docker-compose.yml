@@ -1,0 +1,45 @@
+version: '2'
+services:
+  php:
+    build:
+      dockerfile: php/Dockerfile
+    user: '1000'  
+    volumes:
+      - ./app:/var/www/app/:rw
+    depends_on:
+      - mysql  
+  nginx:
+    image: nginx:latest
+    ports:
+      - '80:80'
+    links:
+      - 'php'
+    volumes:
+      - ./app:/var/www/app/:rw
+      - ./nginx-conf:/etc/nginx/conf.d/:ro
+    depends_on:
+      - php
+  mysql:
+    image: mariadb:10.3
+    ports:
+      - '3306:3306'
+    environment:
+      - 'MARIADB_ROOT_USER=root'
+      - 'MARIADB_ROOT_PASSWORD=qwerty'
+      - 'MARIADB_DATABASE=users'
+      - 'MARIADB_USER=users'
+      - 'MARIADB_PASSWORD=qwerty'
+      - 'ALLOW_EMPTY_PASSWORD=no'
+    volumes:
+      - users_mysql_data:/var/lib/mysql    
+  redis:
+    image: 'redis:latest'
+    ports:
+      - '6379:6379'    
+  maildev:
+    image: maildev/maildev
+    ports:
+      - "8025:1080"    
+volumes:
+  users_mysql_data:
+        
