@@ -31,7 +31,15 @@ services:
       - 'MARIADB_PASSWORD=qwerty'
       - 'ALLOW_EMPTY_PASSWORD=no'
     volumes:
-      - users_mysql_data:/var/lib/mysql    
+      - users_mysql_data:/var/lib/mysql
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin:latest
+    ports:
+      - '8080:80'
+    environment:
+      PMA_HOST: mysql
+    depends_on:
+      - mysql  
   redis:
     image: 'redis:latest'
     ports:

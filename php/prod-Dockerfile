@@ -16,3 +16,4 @@ RUN echo '\nmemory_limit = 2048M;' >> /usr/local/etc/php/php.ini;
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install -o
+RUN php artisan migrate

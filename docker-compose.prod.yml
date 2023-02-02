@@ -3,7 +3,7 @@ services:
   php:
     image: php8.1
     build:
-      dockerfile: php/Dockerfile
+      dockerfile: php/prod-Dockerfile
     ports:
       - '8000:8000'  
     volumes:
