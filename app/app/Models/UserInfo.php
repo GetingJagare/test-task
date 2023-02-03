@@ -14,6 +14,7 @@ class UserInfo extends Model
     protected $fillable = [
         'first_name',
         'last_name',
+        'avatar_id',
     ];
 
     public $timestamps = false; 

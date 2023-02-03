@@ -85,6 +85,6 @@ class RegisterController extends Controller
 
         $data = request()->all();
         $user = $this->create($data);
-        return response()->redirectTo('/register');
+        return response()->redirectTo('/login');
     }
 }

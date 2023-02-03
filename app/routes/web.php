@@ -25,9 +25,12 @@ Route::post('/login', [LoginController::class, 'login']);
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'register']);
 
+Route::middleware(['auth'])->group(function () {
+    Route::get('/logout', [LoginController::class, 'logout']);
+});
+
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [HomeController::class, 'index']);
-    Route::get('/logout', [LoginController::class, 'logout']);
 });
 
 

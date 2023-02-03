@@ -10,7 +10,7 @@
                 <div class="card-header">{{ __('Profile Data') }}</div>
 
                 <div class="card-body">
-                    <form method="POST" action="/users/edit-profile">
+                    <form method="POST" action="/users/edit-profile" enctype="multipart/form-data">
                         @csrf
 
                         <div class="row mb-3">
@@ -28,6 +28,14 @@
                             <div class="col-md-6">
                                 <input id="last_name" type="text" class="form-control" required name="last_name"
                                     value={{ $info->last_name }} >
+                            </div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <label for="avatar" class="col-md-4 col-form-label text-md-end">{{ __('Avatar') }}</label>
+
+                            <div class="col-md-6">
+                                <input id="avatar" type="file" class="form-control" required name="avatar">
                             </div>
                         </div>
 

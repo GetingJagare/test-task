@@ -3,9 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\UserAvatar;
 use App\Models\UserInfo;
 use App\Models\UserRole;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -42,6 +44,16 @@ class UserController extends Controller
         $info = $user->info ? UserInfo::find($user->info_id) : new UserInfo();
         $data = request()->request->all();
         $info->fill($data);
+
+        if (request()->hasFile('avatar')) {
+            $uploadedAvatar = request()->file('avatar');
+            $path = $uploadedAvatar->store('avatars', ['disk' => 'images']);
+            $avatar = $info->avatar_id ? UserAvatar::find($info->avatar_id) : new UserAvatar();
+            $avatar->path = $path;
+            $avatar->save();
+            $info->avatar_id = $avatar->id;
+        }
+
         $info->save();
 
         if (!$user->info_id) {
