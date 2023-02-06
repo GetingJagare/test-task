@@ -38,10 +38,10 @@
                         <form method="POST" action="users/set-admin">
                             @csrf
                             <input type="hidden" name="id" value="{{ $user->id }}" />
-                            <button type="submit" class="btn btn-success">Up to Admin</button>
+                            <button type="submit" class="btn btn-success">Appoint as Admin</button>
                         </form>
                         @endif
-                        @if (Illuminate\Support\Facades\Auth::user()->id !== $user->id)
+                        @if (auth()->user()->id !== $user->id)
                           <form method="POST" action="users/delete" class="ms-3">
                             @csrf
                             <input type="hidden" name="id" value="{{ $user->id }}" />

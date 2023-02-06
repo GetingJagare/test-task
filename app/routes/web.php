@@ -27,12 +27,8 @@ Route::post('/register', [RegisterController::class, 'register']);
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/logout', [LoginController::class, 'logout']);
-});
-
-Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [HomeController::class, 'index']);
 });
-
 
 Route::prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
@@ -40,7 +36,7 @@ Route::prefix('users')->group(function () {
     Route::post('/set-admin', [UserController::class, 'setAdmin']);
 })->middleware(['auth', 'admin']);
 
-Route::prefix('users')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('users')->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/edit-profile', [UserController::class, 'editProfile']);
-})->middleware(['auth', 'verified']);
+});

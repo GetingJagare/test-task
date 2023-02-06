@@ -47,7 +47,8 @@ class UserController extends Controller
 
         if (request()->hasFile('avatar')) {
             $uploadedAvatar = request()->file('avatar');
-            $path = $uploadedAvatar->store('avatars', ['disk' => 'images']);
+            $path = $uploadedAvatar->store('avatars', ['disk' => 's3']);
+            //var_dump($path, Storage::disk('s3')->files()); die;
             $avatar = $info->avatar_id ? UserAvatar::find($info->avatar_id) : new UserAvatar();
             $avatar->path = $path;
             $avatar->save();

@@ -35,7 +35,7 @@ services:
   phpmyadmin:
     image: phpmyadmin/phpmyadmin:latest
     ports:
-      - '8080:80'
+      - '8081:80'
     environment:
       PMA_HOST: mysql
     depends_on:
@@ -46,27 +46,31 @@ services:
       - '6379:6379'    
   maildev:
     image: maildev/maildev
-    ports:
-      - "8025:1080"
-  minio:
-    image: minio/minio
-    ports:
-      - target: 9001
-        published: ${MINIO_PORT:-9001}
-        protocol: tcp
-        mode: host
-    volumes:
-      - type: volume
-        source: minio-store
-        target: /data
-        volume:
-          nocopy: true
     environment:
-      MINIO_ACCESS_KEY: test_access_key
-      MINIO_SECRET_KEY: test_secret_key
-      MINIO_ROOT_USER: test
-      MINIO_ROOT_PASSWORD: qwerty
-    command: server /data    
+      - MAILDEV_WEB_PORT=1080
+      - MAILDEV_SMTP_PORT=1025
+    ports:
+      - "8080:1080"
+      - "8025:1025"
+  minio:
+    image: quay.io/minio/minio
+    volumes:
+      - ${HOME}/minio/data:/data
+    environment:
+      MINIO_ACCESS_KEY: gKemAPmVMag6Q3aj
+      MINIO_SECRET_KEY: XMg4pLw8N6hcMhRNIdT6Ch0vIRnv97YB
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server --console-address ":9001" /data    
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    user: ${USER}  
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3  
 volumes:
   users_mysql_data:
   minio-store:
