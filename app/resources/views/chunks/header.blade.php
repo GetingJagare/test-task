@@ -5,6 +5,7 @@
                 <div class="d-flex align-items-center">
                     @auth
                         <a href="{{ url('/') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
+                        &nbsp;
                         @if (auth()->user()->isAdmin())
                             &nbsp;
                             <a href="{{ url('/users') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">All
