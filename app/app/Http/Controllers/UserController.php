@@ -71,7 +71,8 @@ class UserController extends Controller
         return response()->redirectTo('/users/profile');
     }
 
-    public function avatar() {
+    public function avatar()
+    {
         $user = User::with(['info', 'info.avatar'])->find(auth()->user()->id);
         $path = "";
 
