@@ -3,9 +3,16 @@ services:
   php:
     build:
       dockerfile: php/Dockerfile
-    user: '1000'  
+    user: '1000'
+    environment:
+        PHP_IDE_CONFIG: "serverName=users.localhost"
+    extra_hosts: 
+      - "host.docker.internal:host-gateway"
     volumes:
       - ./app:/var/www/app/:rw
+      - ./php/conf-dev/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./php/conf-dev/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+      - ./php/conf-dev/upload_max_size.ini:/usr/local/etc/php/conf.d/upload_max_size.ini
     depends_on:
       - mysql  
   nginx:
@@ -73,5 +80,4 @@ services:
       retries: 3  
 volumes:
   users_mysql_data:
-  minio-store:
         
