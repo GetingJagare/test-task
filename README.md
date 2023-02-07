@@ -47,5 +47,6 @@ ADMIN_PASSWORD=<admin_password>
 ```
 After that go to parent directory and run the app via docker command
 ```
+cd ..
 docker compose up
 ```
