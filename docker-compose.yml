@@ -2,7 +2,8 @@ version: '2'
 services:
   php:
     build:
-      dockerfile: php/Dockerfile
+      context: php
+      dockerfile: Dockerfile
     user: '1000'
     environment:
         PHP_IDE_CONFIG: "serverName=users.localhost"
@@ -73,11 +74,11 @@ services:
       - "9000:9000"
       - "9001:9001"
     user: ${USER}  
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-      interval: 30s
-      timeout: 20s
-      retries: 3  
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    #   interval: 30s
+    #   timeout: 20s
+    #   retries: 3  
 volumes:
   users_mysql_data:
         

@@ -6,7 +6,6 @@
     <table class="table m-auto" style="max-width: 1000px;">
         <thead>
           <tr>
-            <th>Avatar</th>
             <th>Email</th>
             <th>First Name</th>
             <th>Last Name</th>
@@ -17,12 +16,6 @@
         <tbody>
             @foreach ($users as $user)
               <tr>
-                <td>
-                  @if ($user->info && $user->info->avatar)
-                      <img src="/images/{{$user->info->avatar->path}}" alt="No avatar" 
-                          style="max-width: 100px;"/>
-                  @endif
-                </th>
                 <td>
                   {{ $user->email }}
                   @if (!$user->email_verified_at)

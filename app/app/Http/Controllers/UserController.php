@@ -12,7 +12,7 @@ class UserController extends Controller
 {
     public function index()
     {
-        $users = User::with(['role', 'info', 'info.avatar'])
+        $users = User::with(['role', 'info'])
             ->where('name', '<>', User::USER_SUPERADMIN)
             ->get();
 
@@ -54,10 +54,11 @@ class UserController extends Controller
 
         if (request()->hasFile('avatar')) {
             $uploadedAvatar = request()->file('avatar');
-            $path = $uploadedAvatar->store('avatars', ['disk' => 'images']);
-            //$path = $uploadedAvatar->store('avatars', ['disk' => 's3']);
-            //var_dump($path, Storage::disk('s3')->files()); die;
+            $path = $uploadedAvatar->store('', ['disk' => 'avatars']);
             $avatar = $info->avatar ? UserAvatar::find($info->avatar_id) : new UserAvatar();
+            if ($avatar->path && Storage::disk('avatars')->exists($avatar->path)) {
+                Storage::disk('avatars')->delete($avatar->path);
+            }
             $avatar->path = $path;
             $avatar->save();
             $info->avatar_id = $avatar->id;
@@ -68,5 +69,22 @@ class UserController extends Controller
         $user->save();
 
         return response()->redirectTo('/users/profile');
+    }
+
+    public function avatar() {
+        $user = User::with(['info', 'info.avatar'])->find(auth()->user()->id);
+        $path = "";
+
+        if ($user->info && $user->info->avatar) {
+            $avatar = Storage::disk('avatars')->get($user->info->avatar->path);
+            if ($avatar) {
+                preg_match("/\.(.+)$/", $user->info->avatar->path, $matches);
+                $ext = $matches[1];
+                $tmpPath = "avatars/" . sha1(auth()->user()->id) . "." . $ext;
+                $path = Storage::disk('images')->put($tmpPath, $avatar) ? "/images/$tmpPath" : $path;
+            }
+        }
+
+        return response()->json(['path' => $path]);
     }
 }

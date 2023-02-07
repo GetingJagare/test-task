@@ -2,10 +2,12 @@ version: '2'
 services:
   php:
     build:
-      dockerfile: php/prod-Dockerfile
+      context: php
+      dockerfile: prod-Dockerfile
     user: '1000'  
     volumes:
       - ./app:/var/www/app/:rw
+      - ./php/conf/upload_max_size.ini:/usr/local/etc/php/conf.d/upload_max_size.ini
     depends_on:
       - mysql  
   nginx:
@@ -45,24 +47,24 @@ services:
       - "8080:1080"
       - "8025:1025"
   minio:
-    image: minio/minio
-    ports:
-      - target: 9001
-        published: ${MINIO_PORT:-9001}
-        protocol: tcp
-        mode: host
+    image: quay.io/minio/minio
     volumes:
-      - type: volume
-        source: minio-store
-        target: /data
-        volume:
-          nocopy: true
+      - ${HOME}/minio/data:/data
     environment:
-      MINIO_ACCESS_KEY: XqFuhQ5XAF1O3jwL
-      MINIO_SECRET_KEY: tFE0mRfhClXnlFcrqt4nrD7AQhXQJdkl
-      MINIO_ROOT_USER: ROOTUSER
-      MINIO_ROOT_PASSWORD: qwerty123
-    command: server /data    
+      MINIO_ACCESS_KEY: gKemAPmVMag6Q3aj
+      MINIO_SECRET_KEY: XMg4pLw8N6hcMhRNIdT6Ch0vIRnv97YB
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server --console-address ":9001" /data    
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    user: ${USER}  
+    # healthcheck:
+    #   test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+    #   interval: 30s
+    #   timeout: 20s
+    #   retries: 3  
 volumes:
   users_mysql_data:
   minio-store:    

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\AvatarController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
@@ -30,7 +31,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [HomeController::class, 'index']);
 });
 
-Route::middleware(['auth'])->prefix('users')->group(function () {
+Route::middleware(['auth', 'admin'])->prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/delete', [UserController::class, 'delete']);
     Route::post('/set-admin', [UserController::class, 'setAdmin']);
@@ -39,4 +40,5 @@ Route::middleware(['auth'])->prefix('users')->group(function () {
 Route::middleware(['auth', 'verified'])->prefix('users')->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
     Route::post('/edit-profile', [UserController::class, 'editProfile']);
+    Route::get('/avatar', [UserController::class, 'avatar']);
 });

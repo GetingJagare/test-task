@@ -27,7 +27,7 @@
                 <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block w-100">
                     <div class="container">
                         <div class="d-flex justify-content-between">
-                            <div>
+                            <div class="d-flex align-items-center">
                                 @auth
                                     <a href="{{ url('/') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>   
                                     @if (auth()->user()->isAdmin())
@@ -36,8 +36,9 @@
                                     @endif
                                 @endauth
                             </div>
-                            <div>
+                            <div class="d-flex align-items-center">
                                 @auth
+                                    <img src="" class="d-none avatar me-3" style="width: 50px; height: 50px; border-radius: 50%;" />
                                     <a href="{{ url('/users/profile') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">
                                         @if (auth()->user()->info && (auth()->user()->info->first_name || auth()->user()->info->last_name))
                                             {{ trim(implode(' ', [auth()->user()->info->first_name, auth()->user()->info->last_name])) }}
@@ -63,5 +64,20 @@
                 @yield('content')
             </div>
         </div>
+        
+        <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
+        <script>
+            $.get({
+                url: '/users/avatar',
+                success: (res) => {
+                    if (!res.path) {
+                        return;
+                    }
+
+                    $('.avatar').attr('src', res.path).removeClass('d-none');
+                },
+                dataType: 'json',
+            });
+        </script>
     </body>
 </html>
