@@ -56,12 +56,9 @@ class UserController extends Controller
         }
 
         $info->save();
-
-        if (!$user->info_id) {
-            $user = User::find($user->id);
-            $user->info_id = $info->id;
-            $user->save();
-        }
+        $user = User::find($user->id);
+        $user->info_id = $info->id;
+        $user->save();
 
         return response()->redirectTo('/users/profile');
     }
