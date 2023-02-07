@@ -41,6 +41,15 @@ MAIL_HOST=maildev
 MAIL_PORT=1025
 ```
 ```
+AWS_ACCESS_KEY_ID=<aws_access_key>
+AWS_SECRET_ACCESS_KEY=<aws_secret_key>
+AWS_DEFAULT_REGION=<aws_region>
+AWS_BUCKET=<aws_bucket_name>
+AWS_URL=http://<aws_origin>:<aws_port>
+AWS_ENDPOINT=http://<aws_origin>:<aws_port>
+AWS_USE_PATH_STYLE_ENDPOINT=true
+```
+```
 ADMIN_NAME=admin
 ADMIN_EMAIL=<admin_email>
 ADMIN_PASSWORD=<admin_password>
