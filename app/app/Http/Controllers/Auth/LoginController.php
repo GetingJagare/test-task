@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,28 +38,33 @@ class LoginController extends Controller
         $this->middleware('guest')->except('logout');
     }
 
-    public function index() {
+    public function index()
+    {
         return view('auth.login');
     }
 
-    public function login() {
+    public function login()
+    {
         $credentials = request()->validate([
             'email' => ['required', 'email'],
             'password' => ['required'],
         ]);
- 
+
         if (Auth::attempt($credentials)) {
             request()->session()->regenerate();
+
             return redirect()->to('/');
         }
- 
+
         return back()->withErrors([
             'email' => 'The provided credentials do not match our records.',
         ])->onlyInput('email');
     }
 
-    public function logout() {
+    public function logout()
+    {
         auth()->logout();
+
         return response()->redirectTo('/login');
     }
 }

@@ -2,11 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
-use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\UserRole;
 use Carbon\Carbon;
+use Illuminate\Database\Seeder;
 
 class AdminSeeder extends Seeder
 {
@@ -17,7 +16,7 @@ class AdminSeeder extends Seeder
      */
     public function run()
     {
-        if (!User::where(['name' => env('ADMIN_NAME')])->first()) {
+        if (! User::where(['name' => env('ADMIN_NAME')])->first()) {
             $user = User::create([
                 'name' => env('ADMIN_NAME'),
                 'email' => env('ADMIN_EMAIL'),

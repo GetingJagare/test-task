@@ -10,9 +10,11 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
 
-    const USER_SUPERADMIN = 'admin';
+    public const USER_SUPERADMIN = 'admin';
 
     /**
      * The attributes that are mass assignable.
@@ -45,15 +47,18 @@ class User extends Authenticatable implements MustVerifyEmail
         'email_verified_at' => 'datetime',
     ];
 
-    public function role() {
+    public function role()
+    {
         return $this->hasOne(UserRole::class, 'id', 'role_id');
     }
 
-    public function info() {
+    public function info()
+    {
         return $this->hasOne(UserInfo::class, 'id', 'info_id');
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->role_id === UserRole::ROLE_ADMIN;
     }
 }

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use App\Models\UserRole;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -73,18 +72,21 @@ class RegisterController extends Controller
         ]);
     }
 
-    public function index() {
+    public function index()
+    {
         return view('auth.register');
     }
 
-    public function register() {
+    public function register()
+    {
         $this->validate(request(), [
             'email' => 'required|email',
-            'password' => 'required|confirmed'
+            'password' => 'required|confirmed',
         ]);
 
         $data = request()->all();
         $user = $this->create($data);
+
         return response()->redirectTo('/login');
     }
 }

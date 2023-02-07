@@ -17,9 +17,10 @@ class UserInfo extends Model
         'avatar_id',
     ];
 
-    public $timestamps = false; 
+    public $timestamps = false;
 
-    public function avatar() {
+    public function avatar()
+    {
         return $this->hasOne(UserAvatar::class, 'id', 'avatar_id');
     }
 }
