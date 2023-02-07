@@ -30,7 +30,7 @@
                   @endif
                 </td>
                 <td>{{ $user->info ? $user->info->first_name : '' }}</th>
-                <td>{{ $user->info ? $user->info->first_name : '' }}</td>
+                <td>{{ $user->info ? $user->info->last_name : '' }}</td>
                 <td>{{ $user->role->name }}</td>
                 <td>
                     <div class="d-flex justify-content-end">

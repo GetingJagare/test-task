@@ -47,7 +47,7 @@ class UserController extends Controller
 
     public function editProfile()
     {
-        $user = auth()->user();
+        $user = User::with(['info', 'info.avatar'])->find(auth()->user()->id);
         $info = $user->info ? UserInfo::find($user->info_id) : new UserInfo();
         $data = request()->request->all();
         $info->fill($data);
@@ -57,14 +57,13 @@ class UserController extends Controller
             $path = $uploadedAvatar->store('avatars', ['disk' => 'images']);
             //$path = $uploadedAvatar->store('avatars', ['disk' => 's3']);
             //var_dump($path, Storage::disk('s3')->files()); die;
-            $avatar = $info->avatar_id ? UserAvatar::find($info->avatar_id) : new UserAvatar();
+            $avatar = $info->avatar ? UserAvatar::find($info->avatar_id) : new UserAvatar();
             $avatar->path = $path;
             $avatar->save();
             $info->avatar_id = $avatar->id;
         }
 
         $info->save();
-        $user = User::find($user->id);
         $user->info_id = $info->id;
         $user->save();
 
