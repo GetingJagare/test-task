@@ -30,11 +30,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/', [HomeController::class, 'index']);
 });
 
-Route::prefix('users')->group(function () {
+Route::middleware(['auth'])->prefix('users')->group(function () {
     Route::get('/', [UserController::class, 'index']);
     Route::post('/delete', [UserController::class, 'delete']);
     Route::post('/set-admin', [UserController::class, 'setAdmin']);
-})->middleware(['auth', 'admin']);
+});
 
 Route::middleware(['auth', 'verified'])->prefix('users')->group(function () {
     Route::get('/profile', [UserController::class, 'profile']);
