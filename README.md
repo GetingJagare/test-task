@@ -18,7 +18,7 @@ If there is no .env file in the root app directory execute this commands
 cp .env.example .env
 php artisan key:generate
 ```
-Check if these environment variables are set in .env file:
+Check if these environment variables are set in .env file, specify credentials for connecting to database:
 ```
 LOG_CHANNEL=stdout
 ```
