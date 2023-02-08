@@ -1,9 +1,10 @@
 version: '2'
 services:
   php:
+    container_name: users_php
     build:
-      context: php
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: php/Dockerfile
     user: '1000'
     environment:
         PHP_IDE_CONFIG: "serverName=users.localhost"
@@ -11,9 +12,9 @@ services:
       - "host.docker.internal:host-gateway"
     volumes:
       - ./app:/var/www/app/:rw
-      - ./php/conf-dev/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-      - ./php/conf-dev/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
-      - ./php/conf-dev/upload_max_size.ini:/usr/local/etc/php/conf.d/upload_max_size.ini
+      - ./php/conf/xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+      - ./php/conf/error_reporting.ini:/usr/local/etc/php/conf.d/error_reporting.ini
+      - ./php/conf/upload_max_size.ini:/usr/local/etc/php/conf.d/upload_max_size.ini
     depends_on:
       - mysql  
   nginx:
@@ -24,7 +25,7 @@ services:
       - 'php'
     volumes:
       - ./app:/var/www/app/:rw
-      - ./nginx-conf:/etc/nginx/conf.d/:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d/:ro
     depends_on:
       - php
   mysql:
@@ -65,8 +66,8 @@ services:
     volumes:
       - ${HOME}/minio/data:/data
     environment:
-      MINIO_ACCESS_KEY: gKemAPmVMag6Q3aj
-      MINIO_SECRET_KEY: XMg4pLw8N6hcMhRNIdT6Ch0vIRnv97YB
+      #MINIO_ACCESS_KEY: gKemAPmVMag6Q3aj
+      #MINIO_SECRET_KEY: XMg4pLw8N6hcMhRNIdT6Ch0vIRnv97YB
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     command: server --console-address ":9001" /data    

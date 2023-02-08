@@ -41,21 +41,27 @@ MAIL_HOST=maildev
 MAIL_PORT=1025
 ```
 ```
-AWS_ACCESS_KEY_ID=<aws_access_key>
-AWS_SECRET_ACCESS_KEY=<aws_secret_key>
-AWS_DEFAULT_REGION=<aws_region>
-AWS_BUCKET=<aws_bucket_name>
-AWS_URL=http://minio:<aws_port>
-AWS_ENDPOINT=http://minio:<aws_port>
-AWS_USE_PATH_STYLE_ENDPOINT=true
-```
-```
 ADMIN_NAME=admin
 ADMIN_EMAIL=<admin_email>
 ADMIN_PASSWORD=<admin_password>
+```
+Visit http://127.0.0.1:9000 and create bucket named "avatars", access and secret MinIO keys, then set these variables to .env:
+```
+AWS_ACCESS_KEY_ID=<aws_access_key>
+AWS_SECRET_ACCESS_KEY=<aws_secret_key>
+AWS_DEFAULT_REGION=us-east-1
+AWS_BUCKET=avatars
+AWS_URL=http://minio:9000
+AWS_ENDPOINT=http://minio:9000
+AWS_USE_PATH_STYLE_ENDPOINT=true
 ```
 After that go to parent directory and run the app via docker command
 ```
 cd ..
 docker compose up
 ```
+Execute this command for applying database migrations
+```
+docker exec -it users_php sh /entrypoint.sh
+```
+## Run the app in production mode

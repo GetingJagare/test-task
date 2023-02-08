@@ -2,6 +2,7 @@ FROM php:8.1-fpm
 
 WORKDIR /var/www/app
 COPY app/ .
+COPY php/entrypoint.sh /
 
 # Installing dependencies for the PHP modules
 RUN apt-get update && apt-get install -y zip libzip-dev libpng-dev libicu-dev libonig-dev libcurl4-gnutls-dev libxml2-dev
