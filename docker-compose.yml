@@ -18,7 +18,7 @@ services:
     depends_on:
       - mysql  
   nginx:
-    image: nginx:latest
+    image: nginx:1.23
     ports:
       - '80:80'
     links:
@@ -42,7 +42,7 @@ services:
     volumes:
       - users_mysql_data:/var/lib/mysql
   phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
+    image: phpmyadmin:fpm
     ports:
       - '8081:80'
     environment:
@@ -50,7 +50,7 @@ services:
     depends_on:
       - mysql  
   redis:
-    image: 'redis:latest'
+    image: 'redis:7.0'
     ports:
       - '6379:6379'    
   maildev:

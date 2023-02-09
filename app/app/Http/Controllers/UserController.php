@@ -13,7 +13,7 @@ class UserController extends Controller
     public function index()
     {
         $users = User::with(['role', 'info'])
-            ->where('name', '<>', User::USER_SUPERADMIN)
+            ->where('name', '<>', env('ADMIN_NAME'))
             ->get();
 
         return view('admin.users', ['users' => $users]);

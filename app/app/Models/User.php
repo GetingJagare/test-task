@@ -14,8 +14,6 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use Notifiable;
 
-    public const USER_SUPERADMIN = 'admin';
-
     /**
      * The attributes that are mass assignable.
      *
@@ -46,6 +44,11 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function __construct()
+    {
+        
+    }
 
     public function role()
     {
