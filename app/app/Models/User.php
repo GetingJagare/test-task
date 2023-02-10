@@ -47,7 +47,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function __construct()
     {
-        
     }
 
     public function role()

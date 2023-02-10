@@ -25,7 +25,7 @@ services:
       - 'php'
     volumes:
       - ./app:/var/www/app/:rw
-      - ./nginx/conf.d:/etc/nginx/conf.d/:ro
+      - ./nginx/conf-dev.d:/etc/nginx/conf.d/:ro
     depends_on:
       - php
   mysql:
@@ -41,14 +41,6 @@ services:
       - 'ALLOW_EMPTY_PASSWORD=no'
     volumes:
       - users_mysql_data:/var/lib/mysql
-  phpmyadmin:
-    image: phpmyadmin:fpm
-    ports:
-      - '8081:80'
-    environment:
-      PMA_HOST: mysql
-    depends_on:
-      - mysql  
   redis:
     image: 'redis:7.0'
     ports:
@@ -57,29 +49,25 @@ services:
     image: maildev/maildev
     environment:
       - MAILDEV_WEB_PORT=1080
-      - MAILDEV_SMTP_PORT=1025
+      - MAILDEV_SMTP_PORT=8025
     ports:
-      - "8080:1080"
-      - "8025:1025"
+      - "8025:1080"
   minio:
     image: quay.io/minio/minio
     volumes:
       - ${HOME}/minio/data:/data
     environment:
-      #MINIO_ACCESS_KEY: gKemAPmVMag6Q3aj
-      #MINIO_SECRET_KEY: XMg4pLw8N6hcMhRNIdT6Ch0vIRnv97YB
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     command: server --console-address ":9001" /data    
     ports:
       - "9000:9000"
       - "9001:9001"
-    user: ${USER}  
-    # healthcheck:
-    #   test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
-    #   interval: 30s
-    #   timeout: 20s
-    #   retries: 3  
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 30s
+      timeout: 20s
+      retries: 3  
 volumes:
   users_mysql_data:
         

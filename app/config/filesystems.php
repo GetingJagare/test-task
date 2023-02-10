@@ -44,13 +44,6 @@ return [
             'throw' => false,
         ],
 
-        'images' => [
-            'driver' => 'local',
-            'root' => public_path('images'),
-            'visibility' => 'public',
-            'throw' => false,
-        ],
-
         'avatars' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),

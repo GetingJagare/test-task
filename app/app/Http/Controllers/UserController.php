@@ -74,17 +74,8 @@ class UserController extends Controller
     public function avatar()
     {
         $user = User::with(['info', 'info.avatar'])->find(auth()->user()->id);
-        $path = "";
-
-        if ($user->info && $user->info->avatar) {
-            $avatar = Storage::disk('avatars')->get($user->info->avatar->path);
-            if ($avatar) {
-                preg_match("/\.(.+)$/", $user->info->avatar->path, $matches);
-                $ext = $matches[1];
-                $tmpPath = "avatars/" . sha1(auth()->user()->id) . "." . $ext;
-                $path = Storage::disk('images')->put($tmpPath, $avatar) ? "/images/$tmpPath" : $path;
-            }
-        }
+        $path = $user->info && $user->info->avatar ? env('AWS_URL') . "/" . env('AWS_BUCKET') . "/{$user->info->avatar->path}"
+            : "";
 
         return response()->json(['path' => $path]);
     }
